@@ -95,7 +95,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init('oNWkmSZG7BhgJ8teA'); // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
+            emailjs.init('oNWkmSZG7BhgJ8teA'); // Replace with your EmailJS public key
         })();
         
         function sendEmail(event) {
@@ -116,10 +116,10 @@
                 });
         }
     </script>
-    <script src="script.js" defer></script>
 </head>
 <body>
-    <form onsubmit="sendEmail(event)">
+    <form action="https://formsubmit.co/yadiel.quinones@artisoftlabs.com" method="POST">
+    
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
         
@@ -129,8 +129,8 @@
         <label for="address">Physical Address:</label>
         <input type="text" id="address" name="address" required><br>
         
-        <label for="pobox">Postal Address:</label>
-        <input type="text" id="postal address" name="postaladdress"><br>
+        <label for="postaladdress">Postal Address:</label>
+        <input type="text" id="postaladdress" name="postaladdress"><br>
         
         <label for="zipcode">Zip Code:</label>
         <input type="text" id="zipcode" name="zipcode"><br>
@@ -162,7 +162,7 @@
         </select><br>
         
         <div class="button-container">
-            <button type="submit" onclick="sendMail()">Submit</button>
+            <button type="submit">Submit</button>
             <button type="button" onclick="resetForm()">Reset</button>
         </div>
     </form>
