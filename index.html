@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Information Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Add Font Awesome -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,11 +24,14 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #e0e0e0; /* Light text color for labels */
+            color: #e0e0e0; /* Light text color */
+            font-size: 18px; /* Increase the font size for labels */
+            text-shadow: 1px 1px 2px #e0e0e0; /* Add shadow effect to labels */
         }
         input[type="text"],
         input[type="email"],
         input[type="tel"],
+        input[type="date"],
         textarea,
         select {
             width: 100%;
@@ -37,35 +41,44 @@
             border-radius: 4px;
             background-color: #333; /* Dark background for input fields */
             color: #e0e0e0; /* Light text color for input fields */
+            box-sizing: border-box;
         }
-        button[type="submit"] {
-            background-color: #4CAF50;
+        .input-with-icon {
+            position: relative;
+            display: flex; /* Use flexbox to center the content */
+            align-items: center; /* Center items vertically */
+        }
+        .input-with-icon input {
+            padding-left: 40px; /* Adjust padding to make room for the icon */
+            width: 100%; /* Ensure the input field takes full width */
+            box-sizing: border-box;
+        }
+        .input-with-icon i {
+            position: absolute;
+            left: 10px; /* Space from the left edge */
+            top: 50%;
+            transform: translateY(-50%); /* Center vertically */
+            color: #e0e0e0; /* Icon color */
+        }
+        .button-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+            gap: 10px; /* Space between buttons */
+        }
+        button {
+            background-color: #ff9900;
             color: white;
             border: none;
             padding: 12px 24px;
             text-align: center;
             text-decoration: none;
-            display: inline-block;
             font-size: 16px;
-            margin: 4px 2px;
             cursor: pointer;
             border-radius: 4px;
             transition: background-color 0.3s ease;
         }
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        .github-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        .github-link a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-        .github-link a:hover {
-            text-decoration: underline;
+        button:hover {
+            background-color: #000000;
         }
         footer {
             text-align: center;
@@ -79,9 +92,34 @@
             margin: 0;
         }
     </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init('oNWkmSZG7BhgJ8teA'); // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
+        })();
+        
+        function sendEmail(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const form = document.querySelector('form');
+            const formData = new FormData(form);
+
+            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData)
+                .then(response => {
+                    console.log('Email sent successfully:', response);
+                    alert('Your message has been sent successfully!');
+                    form.reset(); // Reset the form after successful submission
+                })
+                .catch(error => {
+                    console.error('Error sending email:', error);
+                    alert('Failed to send your message. Please try again.');
+                });
+        }
+    </script>
+    <script> src= "script.js"</script>
 </head>
 <body>
-    <form action="https://formsubmit.co/yquinones648@gmail.com" method="post">
+    <form onsubmit="sendEmail(event)">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
         
@@ -91,8 +129,11 @@
         <label for="address">Physical Address:</label>
         <input type="text" id="address" name="address" required><br>
         
-        <label for="pobox">PO Box:</label>
-        <input type="text" id="pobox" name="pobox"><br>
+        <label for="pobox">Postal Address:</label>
+        <input type="text" id="postal address" name="postaladdress"><br>
+        
+        <label for="zipcode">Zip Code:</label>
+        <input type="text" id="zipcode" name="zipcode"><br>
         
         <label for="phone">Phone Number:</label>
         <input type="tel" id="phone" name="phone" required><br>
@@ -100,11 +141,17 @@
         <label for="emergency-name">Emergency Contact Name:</label>
         <input type="text" id="emergency-name" name="emergency-name" required><br>
         
+        <label for="relation">Relation:</label>
+        <input type="text" id="relation" name="relation" required><br>
+        
         <label for="emergency-phone">Emergency Contact Phone:</label>
         <input type="tel" id="emergency-phone" name="emergency-phone" required><br>
         
         <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob" required><br>
+        <div class="input-with-icon">
+            <i class="fas fa-calendar-alt"></i> <!-- Font Awesome calendar icon -->
+            <input type="date" id="dob" name="dob" required>
+        </div><br>
         
         <label for="marital-status">Marital Status:</label>
         <select id="marital-status" name="marital-status" required>
@@ -114,11 +161,20 @@
             <option value="widowed">Widowed</option>
         </select><br>
         
-        <button type="submit">Submit</button>
+        <div class="button-container">
+            <button type="submit" onclick="sendMail()">Submit</button>
+            <button type="button" onclick="resetForm()">Reset</button>
+        </div>
     </form>
 
     <footer>
-        <p>&copy; 2024 Artisoft Laboratories, LLC . All rights reserved.</p>
+        <p>&copy; 2024 Artisoft Laboratories, LLC. All rights reserved.</p>
     </footer>
+    
+    <script>
+        function resetForm() {
+            document.querySelector('form').reset();
+        }
+    </script>
 </body>
 </html>
